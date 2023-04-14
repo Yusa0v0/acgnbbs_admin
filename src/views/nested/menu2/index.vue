@@ -34,6 +34,10 @@ export default {
       },
     };
   },
+  created() {
+    this.form.name = this.$route.params.title;
+    this.form.desc = this.$route.params.content;
+  },
   methods: {
     onSubmit() {
       this.$message("submit!");

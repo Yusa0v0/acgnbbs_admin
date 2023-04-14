@@ -18,25 +18,36 @@
           {{ scope.row.title }}
         </template>
       </el-table-column>
-      <el-table-column label="Author" width="110" align="center">
+      <el-table-column label="发布者" width="110" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.author }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Pageviews" width="110" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.pageviews }}
-        </template>
-      </el-table-column>
-      <el-table-column class-name="status-col" label="Status" width="110" align="center">
-        <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status }}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" prop="created_at" label="Display_time" width="200">
+
+      <el-table-column
+        align="center"
+        prop="created_at"
+        label="发布时间"
+        width="200"
+      >
         <template slot-scope="scope">
           <i class="el-icon-time" />
           <span>{{ scope.row.display_time }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" width="145" align="center">
+        <template slot-scope="scope">
+          <div class="operation">
+            <el-button size="mini" @click="editNotice(scope.$index, scope.row)"
+              >编辑</el-button
+            >
+            <el-button
+              size="mini"
+              type="danger"
+              @click="deleteNotice(scope.$index, scope.row)"
+              >删除</el-button
+            >
+          </div>
         </template>
       </el-table-column>
     </el-table>
@@ -44,36 +55,46 @@
 </template>
 
 <script>
-import { getList } from '@/api/table'
+import { getList } from "@/api/table";
 
 export default {
   filters: {
     statusFilter(status) {
       const statusMap = {
-        published: 'success',
-        draft: 'gray',
-        deleted: 'danger'
-      }
-      return statusMap[status]
-    }
+        published: "success",
+        draft: "gray",
+        deleted: "danger",
+      };
+      return statusMap[status];
+    },
   },
   data() {
     return {
       list: null,
-      listLoading: true
-    }
+      listLoading: true,
+    };
   },
   created() {
-    this.fetchData()
+    this.fetchData();
   },
   methods: {
     fetchData() {
-      this.listLoading = true
-      getList().then(response => {
-        this.list = response.data.items
-        this.listLoading = false
-      })
-    }
-  }
-}
+      this.listLoading = true;
+      getList().then((response) => {
+        this.list = response.data.items;
+        this.listLoading = false;
+      });
+    },
+    editNotice(index, row) {
+      console.log(row.title);
+      this.$router.push(`/nested/menu2/${row.title}/${row.title}`);
+    },
+  },
+};
 </script>
+<style scoped>
+.operation {
+  display: flex;
+  flex-direction: row;
+}
+</style>
