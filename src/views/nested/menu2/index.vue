@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import api from "@/api/request";
 export default {
   data() {
     return {
