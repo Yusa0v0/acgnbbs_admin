@@ -152,7 +152,7 @@ export const constantRoutes = [
         ]
       },
       {
-        path: 'menu2/:title/:content',
+        path: 'menu2/:id/:title/:content',
         component: () => import('@/views/nested/menu2/index'),
         name: 'Menu2',
         meta: { title: '发布公告' }

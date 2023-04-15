@@ -87,7 +87,7 @@ export default {
     },
     editNotice(index, row) {
       console.log(row.title);
-      this.$router.push(`/nested/menu2/${row.title}/${row.title}`);
+      this.$router.push(`/nested/menu2/${index}/${row.title}/${row.title}`);
     },
   },
 };

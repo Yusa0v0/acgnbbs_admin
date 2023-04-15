@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const service = axios.create({
-    baseURL: '/dev-api/api',
+    baseURL: '/customApi',
     timeout: 10000
 })
 
@@ -11,10 +11,10 @@ service.interceptors.request.use(
         // 在发送请求之前做些什么
         // 例如，添加身份验证信息
         // config.headers.Authorization = sessionStorage.getItem('token')
-        const token = localStorage.getItem('token')
-        if (!(token === null || token === 'null')) {
-            config.headers.token = token;
-        }
+        // const token = localStorage.getItem('token')
+        // if (!(token === null || token === 'null')) {
+        //     config.headers.token = token;
+        // }
 
         return config
     },
@@ -43,6 +43,10 @@ const api = {
 
     getLastWeekCommentStatistics: () => service.get('/statistics/lastWeekCommentStatistics'),
     getLastWeekUserStatistics: () => service.get('/statistics/lastWeekUserStatistics'),
+
+    //公告
+    aNotice: (id, createdAdminName, title, content) => service.post('/notice/addNotice', { id, createdAdminName, title, content }),
+    noticeList: () => service.get('/notice/noticeList'),
 
 }
 export default api

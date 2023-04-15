@@ -31,14 +31,14 @@ module.exports = {
   productionSourceMap: false,
   devServer: {
     proxy: {
-      '/dev-api/api': {
+      '/customApi': {
         // 以 “/api” 开头的 代理到 下边的 target 属性 的值 中
         target: 'http://localhost:8000',
         changeOrigin: true, // 是否改变域名
         // ws: true,
         pathRewrite: {
           //   // 路径重写（以正则的规则去写）
-          "^/dev-api/api": ""
+          "^/customApi": ""
         }
       }
     },
