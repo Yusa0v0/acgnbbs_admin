@@ -42,25 +42,15 @@ export default {
     if (this.$route.params.content != ":content") {
       this.form.content = this.$route.params.content;
     }
-    this.noticeList();
   },
   methods: {
     addNotice() {
-      console.log(typeof this.form.id);
-      console.log(this.form.createdAdminName);
-      console.log(this.form.title);
-      console.log(this.form.content);
-
       api
-        .aNotice(
-          // this.form.id,
-          // this.form.createdAdminName,
-          // this.form.title,
-          // this.form.content
-          0,
-          "admin",
-          "金",
-          "内容"
+        .addNotice(
+          this.form.id,
+          this.form.createdAdminName,
+          this.form.title,
+          this.form.content
         )
         .then((response) => {
           console.log(response);
@@ -69,16 +59,6 @@ export default {
           this.form.createdAdminName = "";
           this.form.title = "";
           this.form.content = "";
-        })
-        .catch((error) => {
-          this.$message.error("请求异常" + error);
-        });
-    },
-    noticeList() {
-      api
-        .noticeList()
-        .then((response) => {
-          console.log(response);
         })
         .catch((error) => {
           this.$message.error("请求异常" + error);

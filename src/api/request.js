@@ -45,8 +45,11 @@ const api = {
     getLastWeekUserStatistics: () => service.get('/statistics/lastWeekUserStatistics'),
 
     //公告
-    aNotice: (id, createdAdminName, title, content) => service.post('/notice/addNotice', { id, createdAdminName, title, content }),
+    addNotice: (id, createdAdminName, title, content) => service.post('/notice/addNotice', { id, createdAdminName, title, content }),
     noticeList: () => service.get('/notice/noticeList'),
+    deleteNotice: (noticeId) => service.get(`/notice/deleteNotice/${noticeId}`),
 
+    //用户
+    getUserInfoList: (currentPage, pageSize) => service.get(`/user/userInfoList/${currentPage}/${pageSize}`),
 }
 export default api

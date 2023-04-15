@@ -10,7 +10,7 @@
     >
       <el-table-column align="center" label="公告ID" width="95">
         <template slot-scope="scope">
-          {{ scope.$index }}
+          {{ scope.row.id }}
         </template>
       </el-table-column>
       <el-table-column label="标题">
@@ -20,10 +20,9 @@
       </el-table-column>
       <el-table-column label="发布者" width="110" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.author }}</span>
+          <span>{{ scope.row.createdAdminName }}</span>
         </template>
       </el-table-column>
-
       <el-table-column
         align="center"
         prop="created_at"
@@ -32,7 +31,7 @@
       >
         <template slot-scope="scope">
           <i class="el-icon-time" />
-          <span>{{ scope.row.display_time }}</span>
+          <span>{{ scope.row.createdAt }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="145" align="center">
@@ -55,7 +54,7 @@
 </template>
 
 <script>
-import { getList } from "@/api/table";
+import api from "@/api/request";
 
 export default {
   filters: {
@@ -75,19 +74,37 @@ export default {
     };
   },
   created() {
-    this.fetchData();
+    this.noticeList();
   },
   methods: {
-    fetchData() {
-      this.listLoading = true;
-      getList().then((response) => {
-        this.list = response.data.items;
-        this.listLoading = false;
-      });
-    },
     editNotice(index, row) {
       console.log(row.title);
-      this.$router.push(`/nested/menu2/${index}/${row.title}/${row.title}`);
+      this.$router.push(`/nested/menu2/${row.id}/${row.title}/${row.title}`);
+    },
+    deleteNotice(index, row) {
+      api
+        .deleteNotice(row.id)
+        .then((response) => {
+          this.$message.success("删除成功");
+          this.list.splice(index, 1);
+        })
+        .catch((error) => {
+          this.$message.error("请求异常" + error);
+        });
+    },
+    noticeList() {
+      this.listLoading = true;
+      api
+        .noticeList()
+        .then((response) => {
+          console.log(response.data);
+          this.list = response.data;
+          this.listLoading = false;
+        })
+        .catch((error) => {
+          this.$message.error("请求异常" + error);
+          this.listLoading = false;
+        });
     },
   },
 };
