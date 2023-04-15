@@ -77,9 +77,9 @@ export default {
   filters: {
     statusFilter(status) {
       const statusMap = {
-        published: "success",
+        success: "success",
         draft: "gray",
-        deleted: "danger",
+        banned: "danger",
       };
       return statusMap[status];
     },
@@ -106,9 +106,9 @@ export default {
           for (let index = 0; index < this.list.length; index++) {
             const element = this.list[index];
             if (element.isBanned == 0) {
-              element.status = "published";
+              element.status = "success";
             } else {
-              element.status = "deleted";
+              element.status = "banned";
             }
             if (element.gender == 0) {
               element.gender = "男";
