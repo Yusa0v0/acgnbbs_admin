@@ -46,7 +46,7 @@ const api = {
 
     //公告
     addNotice: (id, createdAdminName, title, content) => service.post('/notice/addNotice', { id, createdAdminName, title, content }),
-    noticeList: () => service.get('/notice/noticeList'),
+    noticeList: (currentPage,pageSize) => service.get(`/notice/noticeList/${currentPage}/${pageSize}`),
     deleteNotice: (noticeId) => service.get(`/notice/deleteNotice/${noticeId}`),
 
     //用户

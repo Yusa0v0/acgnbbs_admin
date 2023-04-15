@@ -67,11 +67,17 @@
         </template>
       </el-table-column>
     </el-table>
+    <pagination
+      :pagination="pagination"
+      @greet-event="getUserInfoList"
+      :setCurrectPage="setCurrectPage"
+    />
   </div>
 </template>
 
 <script>
 import api from "@/api/request";
+import Pagination from "@/components/Pagination";
 
 export default {
   filters: {
@@ -84,24 +90,36 @@ export default {
       return statusMap[status];
     },
   },
+  components: {
+    Pagination,
+  },
   data() {
     return {
       list: null,
       listLoading: true,
+      pagination: {
+        total: 0,
+        pageSize: 10,
+        currentPage: 1,
+      },
     };
   },
   created() {
     this.getUserInfoList();
   },
   methods: {
+    setCurrectPage(currentPage) {
+      this.pagination.currentPage = currentPage;
+    },
     banUser() {},
     getUserInfoList() {
       this.listLoading = true;
       api
-        .getUserInfoList(1, 10)
+        .getUserInfoList(this.pagination.currentPage, this.pagination.pageSize)
         .then((response) => {
           console.log(response.data);
           this.list = response.data.userInfoVOList;
+          this.pagination.total = response.data.total;
           this.listLoading = false;
           for (let index = 0; index < this.list.length; index++) {
             const element = this.list[index];

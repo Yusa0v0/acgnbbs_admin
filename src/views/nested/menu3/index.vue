@@ -50,23 +50,40 @@
         </template>
       </el-table-column>
     </el-table>
+    <pagination
+      :pagination="pagination"
+      @greet-event="noticeList"
+      :setCurrectPage="setCurrectPage"
+    />
   </div>
 </template>
 
 <script>
 import api from "@/api/request";
+import Pagination from "@/components/Pagination";
 
 export default {
+  components: {
+    Pagination,
+  },
   data() {
     return {
       list: null,
       listLoading: true,
+      pagination: {
+        total: 0,
+        pageSize: 10,
+        currentPage: 1,
+      },
     };
   },
   created() {
     this.noticeList();
   },
   methods: {
+    setCurrectPage(currentPage) {
+      this.pagination.currentPage = currentPage;
+    },
     editNotice(index, row) {
       console.log(row.title);
       this.$router.push(`/nested/menu2/${row.id}/${row.title}/${row.title}`);
@@ -85,10 +102,11 @@ export default {
     noticeList() {
       this.listLoading = true;
       api
-        .noticeList()
+        .noticeList(this.pagination.currentPage, this.pagination.pageSize)
         .then((response) => {
           console.log(response.data);
-          this.list = response.data;
+          this.list = response.data.userInfoList;
+          this.pagination.total = response.data.total;
           this.listLoading = false;
         })
         .catch((error) => {
