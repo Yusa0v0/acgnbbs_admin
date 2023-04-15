@@ -46,10 +46,13 @@ const api = {
 
     //公告
     addNotice: (id, createdAdminName, title, content) => service.post('/notice/addNotice', { id, createdAdminName, title, content }),
-    noticeList: (currentPage,pageSize) => service.get(`/notice/noticeList/${currentPage}/${pageSize}`),
+    noticeList: (currentPage, pageSize) => service.get(`/notice/noticeList/${currentPage}/${pageSize}`),
     deleteNotice: (noticeId) => service.get(`/notice/deleteNotice/${noticeId}`),
 
     //用户
     getUserInfoList: (currentPage, pageSize) => service.get(`/user/userInfoList/${currentPage}/${pageSize}`),
+    banUser: (id) => service.get(`/user/banUser/${id}`),
+    cancelBanUser: (id) => service.get(`/user/cancelBanUser/${id}`),
+
 }
 export default api

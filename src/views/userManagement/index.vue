@@ -40,28 +40,21 @@
           }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column
-        align="center"
-        prop="created_at"
-        label="上次登录时间"
-        width="200"
-      >
-        <template slot-scope="scope">
-          <i class="el-icon-time" />
-          <span>{{ scope.row.display_time }}</span>
-        </template>
-      </el-table-column>
       <el-table-column label="操作" width="145" align="center">
         <template slot-scope="scope">
           <div class="operation">
-            <el-button size="mini" @click="banUser(scope.$index, scope.row)"
+            <el-button
+              size="mini"
+              type="danger"
+              :disabled="scope.row.isBanned"
+              @click="banUser(scope.$index, scope.row)"
               >封禁</el-button
             >
             <el-button
               size="mini"
-              type="danger"
-              @click="banUser(scope.$index, scope.row)"
-              >封禁</el-button
+              :disabled="!scope.row.isBanned"
+              @click="cancelBanUser(scope.$index, scope.row)"
+              >解封</el-button
             >
           </div>
         </template>
@@ -83,7 +76,7 @@ export default {
   filters: {
     statusFilter(status) {
       const statusMap = {
-        success: "success",
+        normal: "success",
         draft: "gray",
         banned: "danger",
       };
@@ -111,20 +104,51 @@ export default {
     setCurrectPage(currentPage) {
       this.pagination.currentPage = currentPage;
     },
-    banUser() {},
+    banUser(index, row) {
+      api
+        .banUser(row.id)
+        .then((response) => {
+          // this.list[index].isBanned = 1;
+          // this.list[index].status = "banned";
+          // row.isBanned = 1;
+          // row.status = "banned";
+          // console.log(this.list[index].isBanned);
+          // console.log(this.list[index].status);
+          this.getUserInfoList();
+        })
+        .catch((error) => {
+          this.$message.error("请求异常" + error);
+        });
+    },
+    cancelBanUser(index, row) {
+      api
+        .cancelBanUser(row.id)
+        .then((response) => {
+          // this.list[index].isBanned = 0;
+          // this.list[index].status = "normal";
+          // row.isBanned = 0;
+          // row.status = "normal";
+          // console.log(this.list[index].isBanned);
+          // console.log(this.list[index].status);
+          this.getUserInfoList();
+        })
+        .catch((error) => {
+          this.$message.error("请求异常" + error);
+        });
+    },
     getUserInfoList() {
       this.listLoading = true;
       api
         .getUserInfoList(this.pagination.currentPage, this.pagination.pageSize)
         .then((response) => {
           console.log(response.data);
-          this.list = response.data.userInfoVOList;
+          this.list = response.data.userManagementList;
           this.pagination.total = response.data.total;
           this.listLoading = false;
           for (let index = 0; index < this.list.length; index++) {
             const element = this.list[index];
             if (element.isBanned == 0) {
-              element.status = "success";
+              element.status = "normal";
             } else {
               element.status = "banned";
             }
