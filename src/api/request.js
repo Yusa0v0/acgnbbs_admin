@@ -49,6 +49,10 @@ const api = {
     noticeList: (currentPage, pageSize) => service.get(`/notice/noticeList/${currentPage}/${pageSize}`),
     deleteNotice: (noticeId) => service.get(`/notice/deleteNotice/${noticeId}`),
 
+
+    //举报
+    getReportList: (currentPage, pageSize) => service.get(`/report/reportList/${currentPage}/${pageSize}`),
+
     //用户
     getUserInfoList: (currentPage, pageSize) => service.get(`/user/userInfoList/${currentPage}/${pageSize}`),
     banUser: (id) => service.get(`/user/banUser/${id}`),

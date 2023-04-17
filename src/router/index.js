@@ -77,6 +77,18 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/reportManagement',
+    component: Layout,
+    children: [
+      {
+        path: 'reportManage',
+        name: 'reportManage',
+        component: () => import('@/views/reportManage/index'),
+        meta: { title: '处理举报', icon: 'table' }
+      }
+    ]
+  },
+  {
     path: '/userManagement',
     component: Layout,
     children: [
