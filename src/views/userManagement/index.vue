@@ -35,9 +35,10 @@
         align="center"
       >
         <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{
-            scope.row.status
-          }}</el-tag>
+          <el-tag :type="scope.row.status | statusFilter">
+            <span v-if="scope.row.status == 'banned'"> 封号中 </span>
+            <span v-else> 正常 </span>
+            </el-tag>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="145" align="center">

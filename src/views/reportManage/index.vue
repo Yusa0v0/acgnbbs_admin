@@ -13,7 +13,7 @@
           {{ scope.row.postId }}
         </template>
       </el-table-column>
-      <el-table-column label="用户ID" width="110" align="center">
+      <el-table-column label="被举报用户ID" width="110" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.userId }}</span>
         </template>
@@ -32,7 +32,8 @@
       >
         <template slot-scope="scope">
           <el-tag :type="scope.row.status | statusFilter">
-            {{ scope.row.status }}
+            <span v-if="scope.row.status == 'isHandled'"> 已处理 </span>
+            <span v-else> 待处理 </span>
           </el-tag>
         </template>
       </el-table-column>
@@ -42,20 +43,75 @@
             <el-button
               size="mini"
               type="danger"
-              :disabled="scope.row.isBanned"
-              @click="banUser(scope.$index, scope.row)"
-              >封禁</el-button
+              v-if="scope.row.isHandled == 0"
+              @click="handleReport(scope.$index, scope.row)"
+              >处理举报</el-button
             >
             <el-button
               size="mini"
-              :disabled="!scope.row.isBanned"
-              @click="cancelBanUser(scope.$index, scope.row)"
-              >解封</el-button
+              type="primary"
+              v-if="scope.row.isHandled == 1"
+              @click="getReportResult(scope.$index, scope.row)"
+              >查看举报结果</el-button
             >
           </div>
         </template>
       </el-table-column>
     </el-table>
+    <el-dialog title="处理举报" width="40%" :visible.sync="showReportDialog">
+      <el-form ref="reportForm" label-width="80px">
+        <el-form-item label="用户信息" prop="userInfo">
+          <span class="user-info-userLine">
+            <el-avatar :src="userInfo.avatar"></el-avatar>
+            <el-divider direction="vertical"></el-divider>
+            {{ userInfo.username }}
+            <span v-if="this.userInfo.gender">
+              <i class="el-icon-female" style="color: #ff69b4"></i>
+            </span>
+            <span v-else>
+              <i class="el-icon-male" style="color: #00bfff"></i>
+            </span>
+            <el-divider direction="vertical"></el-divider>
+            <span>
+              <el-tag type="danger">封号中</el-tag>
+            </span>
+          </span>
+        </el-form-item>
+        <el-form-item label="帖子标题" prop="postInfo">
+          <div v-html="post.title"></div>
+        </el-form-item>
+        <el-form-item label="帖子信息" prop="postInfo">
+          <div v-html="post.content"></div>
+        </el-form-item>
+        <el-form-item label="举报信息" prop="postInfo">
+          <span> {{ list[reportIndex].reportContent }} </span>
+        </el-form-item>
+
+        <el-form-item label="操作" v-if="list[reportIndex].isHandled == 0">
+          <el-button
+            type="danger"
+            @click="banUser(list[reportIndex].userId)"
+            :disabled="list[reportIndex].userBanned"
+          >
+            封禁用户
+          </el-button>
+          <el-button
+            type="danger"
+            @click="deletePostByAdmin(list[reportIndex].postId)"
+            :disabled="list[reportIndex].postDeleted"
+          >
+            删除帖子
+          </el-button>
+          <el-button
+            type="primary"
+            @click="finishReport(list[reportIndex].id)"
+            :disabled="list[reportIndex].isHandled == 1"
+          >
+            完成举报
+          </el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
     <pagination
       :pagination="pagination"
       @greet-event="getReportList"
@@ -72,9 +128,9 @@ export default {
   filters: {
     statusFilter(status) {
       const statusMap = {
-        isHanlded: "success",
+        isHandled: "success",
         draft: "gray",
-        notHanlded: "danger",
+        notHandled: "danger",
       };
       return statusMap[status];
     },
@@ -84,8 +140,24 @@ export default {
   },
   data() {
     return {
+      reportIndex: 0,
+      showReportDialog: false,
+      post: {
+        title: "",
+        content: "",
+      },
+      userInfo: {
+        id: 1,
+        username: "",
+        bio: "",
+        gender: 0,
+        avatar: "",
+      },
       list: null,
       listLoading: true,
+      reportForm: {
+        reportContent: "",
+      },
       pagination: {
         total: 0,
         pageSize: 10,
@@ -100,22 +172,45 @@ export default {
     setCurrectPage(currentPage) {
       this.pagination.currentPage = currentPage;
     },
-    banUser(index, row) {
+    handleReport(index, row) {
+      this.reportIndex = index;
+      this.postDetails(row.postId);
+      this.getUserInfo(row.userId);
+      this.showReportDialog = true;
+    },
+    getReportResult(index, row) {
+      this.reportIndex = index;
+      this.post.title = "<h3>该帖已被删除</h3>";
+      this.post.content = "<h3>该帖已被删除</h3>";
+      this.getUserInfo(row.userId);
+      this.showReportDialog = true;
+    },
+    finishReport(id) {
       api
-        .banUser(row.id)
+        .handleReport(id)
         .then((response) => {
-          this.getReportList();
+          this.list[this.reportIndex].isHandled = 1;
+          this.$message.success("处理举报成功");
         })
         .catch((error) => {
           this.$message.error("请求异常" + error);
         });
     },
-    cancelBanUser(index, row) {
+    banUser(id) {
+      this.list[this.reportIndex].userBanned = true;
+      // this.userInfo.isBanned = true;
       api
-        .cancelBanUser(row.id)
-        .then((response) => {
-          this.getReportList();
-        })
+        .banUser(id)
+        .then((response) => {})
+        .catch((error) => {
+          this.$message.error("请求异常" + error);
+        });
+    },
+    deletePostByAdmin(id) {
+      this.list[this.reportIndex].postDeleted = true;
+      api
+        .deletePostByAdmin(id)
+        .then((response) => {})
         .catch((error) => {
           this.$message.error("请求异常" + error);
         });
@@ -132,9 +227,9 @@ export default {
           for (let index = 0; index < this.list.length; index++) {
             const element = this.list[index];
             if (element.isHandled == 0) {
-              element.status = "notHanlded";
+              element.status = "notHandled";
             } else {
-              element.status = "isHanlded";
+              element.status = "isHandled";
             }
           }
           console.log(this.list);
@@ -144,6 +239,32 @@ export default {
           this.listLoading = false;
         });
     },
+    postDetails(id) {
+      api
+        .postDetails(id)
+        .then((res) => {
+          this.post = res.data;
+        })
+        .catch((error) => {
+          console.log("" + error);
+        });
+    },
+    getUserInfo(id) {
+      api
+        .getUserInfo(id)
+        .then((response) => {
+          this.userInfo = response.data;
+        })
+        .catch((error) => {
+          this.$message.error("请求异常" + error);
+        });
+    },
   },
 };
 </script>
+<style scoped>
+.user-info-userLine {
+  display: flex;
+  align-items: center;
+}
+</style>

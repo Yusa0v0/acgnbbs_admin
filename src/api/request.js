@@ -50,10 +50,16 @@ const api = {
     deleteNotice: (noticeId) => service.get(`/notice/deleteNotice/${noticeId}`),
 
 
+    //帖子
+    postDetails: (id) => service.get(`/post/postDetails/${id}`),
+    deletePostByAdmin: (postId) => service.get(`/post/deletePostByAdmin/${postId}`),
+
     //举报
     getReportList: (currentPage, pageSize) => service.get(`/report/reportList/${currentPage}/${pageSize}`),
+    handleReport: (reportId) => service.get(`/report/handleReport/${reportId}`),
 
     //用户
+    getUserInfo: (id) => service.get(`/user/userInfo/${id}`),
     getUserInfoList: (currentPage, pageSize) => service.get(`/user/userInfoList/${currentPage}/${pageSize}`),
     banUser: (id) => service.get(`/user/banUser/${id}`),
     cancelBanUser: (id) => service.get(`/user/cancelBanUser/${id}`),
