@@ -18,6 +18,11 @@
           {{ scope.row.title }}
         </template>
       </el-table-column>
+      <el-table-column label="内容">
+        <template slot-scope="scope">
+          {{ scope.row.content }}
+        </template>
+      </el-table-column>
       <el-table-column label="发布者" width="110" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.createdAdminName }}</span>
