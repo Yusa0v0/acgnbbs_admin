@@ -18,9 +18,9 @@
           <router-link to="/">
             <el-dropdown-item> Home </el-dropdown-item>
           </router-link>
-          <a target="_blank" href="https://github.com/Yusa0v0/acgnbbs/">
+          <!-- <a target="_blank" href="https://github.com/Yusa0v0/acgnbbs/">
             <el-dropdown-item>Github</el-dropdown-item>
-          </a>
+          </a> -->
           <el-dropdown-item divided @click.native="logout">
             <span style="display: block">Log Out</span>
           </el-dropdown-item>
