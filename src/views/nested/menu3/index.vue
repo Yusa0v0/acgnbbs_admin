@@ -36,7 +36,7 @@
       >
         <template slot-scope="scope">
           <i class="el-icon-time" />
-          <span>{{ scope.row.createdAt }}</span>
+          <span>{{ formatDate(scope.row.createdAt) }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="145" align="center">
@@ -66,7 +66,7 @@
 <script>
 import api from "@/api/request";
 import Pagination from "@/components/Pagination";
-
+import { formatDate } from "@/utils/format";
 export default {
   components: {
     Pagination,
@@ -86,12 +86,15 @@ export default {
     this.noticeList();
   },
   methods: {
+    formatDate(date) {
+      return formatDate(date);
+    },
     setCurrectPage(currentPage) {
       this.pagination.currentPage = currentPage;
     },
     editNotice(index, row) {
       console.log(row.title);
-      this.$router.push(`/nested/menu2/${row.id}/${row.title}/${row.title}`);
+      this.$router.push(`/nested/menu2/${row.id}/${row.title}/${row.content}`);
     },
     deleteNotice(index, row) {
       api

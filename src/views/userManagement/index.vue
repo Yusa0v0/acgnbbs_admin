@@ -109,12 +109,6 @@ export default {
       api
         .banUser(row.id)
         .then((response) => {
-          // this.list[index].isBanned = 1;
-          // this.list[index].status = "banned";
-          // row.isBanned = 1;
-          // row.status = "banned";
-          // console.log(this.list[index].isBanned);
-          // console.log(this.list[index].status);
           this.getUserInfoList();
         })
         .catch((error) => {
@@ -125,12 +119,6 @@ export default {
       api
         .cancelBanUser(row.id)
         .then((response) => {
-          // this.list[index].isBanned = 0;
-          // this.list[index].status = "normal";
-          // row.isBanned = 0;
-          // row.status = "normal";
-          // console.log(this.list[index].isBanned);
-          // console.log(this.list[index].status);
           this.getUserInfoList();
         })
         .catch((error) => {

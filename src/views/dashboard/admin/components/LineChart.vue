@@ -6,7 +6,6 @@
 import echarts from "echarts";
 require("echarts/theme/macarons"); // echarts theme
 import resize from "./mixins/resize";
-import api from "@/api/request";
 
 export default {
   mixins: [resize],

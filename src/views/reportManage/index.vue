@@ -198,7 +198,6 @@ export default {
     },
     banUser(id) {
       this.list[this.reportIndex].userBanned = true;
-      // this.userInfo.isBanned = true;
       api
         .banUser(id)
         .then((response) => {})
