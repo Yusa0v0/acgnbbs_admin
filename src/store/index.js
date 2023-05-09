@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import getters from './getters'
+import state from './state'
+
 import app from './modules/app'
 import settings from './modules/settings'
 import user from './modules/user'
@@ -13,7 +15,8 @@ const store = new Vuex.Store({
     settings,
     user
   },
-  getters
+  getters,
+  state
 })
 
 export default store

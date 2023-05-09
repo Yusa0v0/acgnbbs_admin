@@ -48,7 +48,7 @@ export default {
       this.$store.dispatch("app/toggleSideBar");
     },
     async logout() {
-      await this.$store.dispatch("user/logout");
+      localStorage.setItem("logined", false);
       this.$router.push(`/login?redirect=${this.$route.fullPath}`);
     },
   },

@@ -51,7 +51,7 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: '仪表盘', icon: 'dashboard' }
+      meta: { title: '仪表盘', icon: 'dashboard', requiresAuth: true }
     }]
   },
 
@@ -63,7 +63,7 @@ export const constantRoutes = [
         path: 'reportManage',
         name: 'reportManage',
         component: () => import('@/views/reportManage/index'),
-        meta: { title: '处理举报', icon: 'table' }
+        meta: { title: '处理举报', icon: 'table', requiresAuth: true }
       }
     ]
   },
@@ -75,7 +75,7 @@ export const constantRoutes = [
         path: 'userManagement',
         name: 'UserManagement',
         component: () => import('@/views/userManagement/index'),
-        meta: { title: '用户管理', icon: 'table' }
+        meta: { title: '用户管理', icon: 'table', requiresAuth: true }
       }
     ]
   },
@@ -94,13 +94,13 @@ export const constantRoutes = [
         path: 'menu2/:id/:title/:content',
         component: () => import('@/views/nested/menu2/index'),
         name: 'Menu2',
-        meta: { title: '发布公告' }
+        meta: { title: '发布公告', requiresAuth: true }
       },
       {
         path: 'menu3',
         component: () => import('@/views/nested/menu3/index'),
         name: 'Menu3',
-        meta: { title: '管理公告' }
+        meta: { title: '管理公告', requiresAuth: true }
       }
     ]
   },
@@ -111,7 +111,7 @@ export const constantRoutes = [
     children: [
       {
         path: 'https://github.com/Yusa0v0/acgnbbs',
-        meta: { title: '外链', icon: 'link' }
+        meta: { title: '外链', icon: 'link', requiresAuth: true }
       }
     ]
   },

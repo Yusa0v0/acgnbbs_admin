@@ -62,7 +62,8 @@
 
 <script>
 import { validUsername } from "@/utils/validate";
-
+import api from "@/api/request";
+import { getToken, setToken, removeToken } from "@/utils/auth";
 export default {
   name: "Login",
   data() {
@@ -82,8 +83,8 @@ export default {
     };
     return {
       loginForm: {
-        username: "admin",
-        password: "111111",
+        username: "",
+        password: "",
       },
       loginRules: {
         username: [
@@ -121,15 +122,39 @@ export default {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           this.loading = true;
-          this.$store
-            .dispatch("user/login", this.loginForm)
-            .then(() => {
-              this.$router.push({ path: this.redirect || "/" });
-              this.loading = false;
-            })
-            .catch(() => {
-              this.loading = false;
-            });
+          // this.$store
+          //   .dispatch("user/login", this.loginForm)
+          //   .then(() => {
+          //     this.$router.push({ path: this.redirect || "/" });
+          //     this.loading = false;
+          //     console.log("发送");
+          //   })
+          //   .catch(() => {
+          //     this.loading = false;
+          //   });
+
+          new Promise((resolve, reject) => {
+            api
+              .login(this.loginForm.username, this.loginForm.password)
+              .then((response) => {
+                const data = response.data;
+                // commit("SET_TOKEN", data.token);
+                console.log(data.token);
+                localStorage.setItem("token", data.token);
+                localStorage.setItem("logined", true);
+                this.$store.state.logined = localStorage.getItem("logined");
+                this.loading = false;
+                this.$message.success("登录成功~");
+                console.log(this.redirect);
+                this.$router.push({ path: this.redirect || "/" });
+              })
+              .catch((error) => {
+                reject(error);
+
+                this.loading = false;
+                this.$message.error("登录失败~");
+              });
+          });
         } else {
           console.log("error submit!!");
           return false;

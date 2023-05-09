@@ -37,6 +37,12 @@ service.interceptors.response.use(
 )
 // 封装请求集
 const api = {
+
+    //
+    login: (adminName, password) => service.post('/admin/login', { adminName, password }),
+
+
+
     getDailyPageViews: (year, month, day) => service.get(`/pageViews/getDailyPageViews/${year}/${month}/${day}`),
     getMonthViews: (year, month) => service.get(`/pageViews/getMonthViews/${year}/${month}`),
     getYearPageViews: (year) => service.get(`/pageViews/getYearPageViews/${year}/`),
