@@ -41,7 +41,7 @@
           <div class="card-panel-text">新增用户</div>
           <count-to
             :start-val="0"
-            :end-val="9280"
+            :end-val="newUserNum"
             :duration="3200"
             class="card-panel-num"
           />
@@ -57,7 +57,7 @@
           <div class="card-panel-text">签到</div>
           <count-to
             :start-val="0"
-            :end-val="13600"
+            :end-val="userSignNum"
             :duration="3600"
             class="card-panel-num"
           />
@@ -80,6 +80,14 @@ export default {
       default: 1000,
     },
     commentNum: {
+      type: Number,
+      default: 1000,
+    },
+    newUserNum: {
+      type: Number,
+      default: 1000,
+    },
+    userSignNum: {
       type: Number,
       default: 1000,
     },

@@ -47,8 +47,24 @@ const api = {
     getMonthViews: (year, month) => service.get(`/pageViews/getMonthViews/${year}/${month}`),
     getYearPageViews: (year) => service.get(`/pageViews/getYearPageViews/${year}/`),
 
+    //实际数据
     getLastWeekCommentStatistics: () => service.get('/statistics/lastWeekCommentStatistics'),
     getLastWeekUserStatistics: () => service.get('/statistics/lastWeekUserStatistics'),
+    getLastWeekNewUserStatistics: () => service.get('/statistics/lastWeekNewUserStatistics'),
+    getLastWeekUserSignStatistics: () => service.get('/statistics/lastWeekUserSignStatistics'),
+
+
+    getLastWeekAnimationPageViewStatistics: () => service.get('/statistics/getLastWeekAnimationPageViewStatistics'),
+    getLastWeekComicPageViewStatistics: () => service.get('/statistics/getLastWeekComicPageViewStatistics'),
+    getLastWeekGamePageViewStatistics: () => service.get('/statistics/getLastWeekGamePageViewStatistics'),
+    getLastWeekNovelPageViewStatistics: () => service.get('/statistics/getLastWeekNovelPageViewStatistics'),
+
+
+    //预测数据
+    getLastWeekCommentForecast: () => service.get('/forecast/lastWeekCommentForecast'),
+    getLastWeekUserForecast: () => service.get('/forecast/lastWeekUserForecast'),
+    getLastWeekNewUserForecast: () => service.get('/forecast/lastWeekNewUserForecast'),
+    getLastWeekUserSignForecast: () => service.get('/forecast/lastWeekUserSignForecast'),
 
     //公告
     addNotice: (id, createdAdminName, title, content) => service.post('/notice/addNotice', { id, createdAdminName, title, content }),
