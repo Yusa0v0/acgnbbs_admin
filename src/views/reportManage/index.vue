@@ -81,7 +81,7 @@
           <div v-html="post.title"></div>
         </el-form-item>
         <el-form-item label="帖子信息" prop="postInfo">
-          <div v-html="post.content"></div>
+          <div class="report-post-info" v-html="post.content"></div>
         </el-form-item>
         <el-form-item label="举报信息" prop="postInfo">
           <span> {{ list[reportIndex].reportContent }} </span>
@@ -265,5 +265,10 @@ export default {
 .user-info-userLine {
   display: flex;
   align-items: center;
+}
+.report-post-info >>> img {
+  /* width: 100% !important; */
+  max-width: 300px;
+  max-height: 400px;
 }
 </style>
