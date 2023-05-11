@@ -64,6 +64,7 @@ const api = {
     getLastWeekCommentForecast: () => service.get('/forecast/lastWeekCommentForecast'),
     getLastWeekUserForecast: () => service.get('/forecast/lastWeekUserForecast'),
     getLastWeekNewUserForecast: () => service.get('/forecast/lastWeekNewUserForecast'),
+
     getLastWeekUserSignForecast: () => service.get('/forecast/lastWeekUserSignForecast'),
 
     //公告

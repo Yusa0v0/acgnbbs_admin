@@ -89,12 +89,12 @@ let lineChartData = {
     actualData: [180, 160, 151, 106, 145, 150, 130],
   },
   purchases: {
-    expectedData: [80, 100, 121, 104, 105, 90, 100],
-    actualData: [120, 90, 100, 138, 142, 130, 130],
+    expectedData: [],
+    actualData: [],
   },
   shoppings: {
-    expectedData: [130, 140, 141, 142, 145, 150, 160],
-    actualData: [120, 82, 91, 154, 162, 140, 130],
+    expectedData: [],
+    actualData: [],
   },
 };
 
@@ -128,9 +128,9 @@ export default {
 
     this.getLastWeekUserForecast();
     this.getLastWeekCommentForecast();
-    
-    this.getLastWeekNewUserForecast();
     this.getLastWeekUserSignForecast();
+
+    this.getLastWeekNewUserForecast();
   },
   methods: {
     handleSetLineChartData(type) {
@@ -188,6 +188,7 @@ export default {
       api
         .getLastWeekUserSignStatistics()
         .then((response) => {
+          console.log("las");
           console.log(response.data);
           lineChartData.shoppings.actualData = response.data;
           // 计算数组和
@@ -208,11 +209,6 @@ export default {
         .then((response) => {
           console.log(response.data);
           lineChartData.visitis.expectedData = response.data;
-          // 计算数组和
-          this.visitNum = lineChartData.visitis.expectedData.reduce(
-            (accumulator, currentValue) => accumulator + currentValue,
-            0
-          );
         })
         .catch((error) => {
           console.log(error);
@@ -222,55 +218,38 @@ export default {
       api
         .getLastWeekCommentForecast()
         .then((response) => {
-          console.log("111111");
           lineChartData.comments.expectedData = response.data;
-          // 计算数组和
-          this.commentNum = lineChartData.comments.expectedData.reduce(
-            (accumulator, currentValue) => accumulator + currentValue,
-            0
-          );
         })
         .catch((error) => {
           console.log(error);
         });
     },
-  },
-  getLastWeekNewUserForecast() {
-    api
-      .getLastWeekNewUserForecast()
-      .then((response) => {
-        console.log("NewUser");
+    getLastWeekNewUserForecast() {
+      api
+        .getLastWeekNewUserForecast()
+        .then((response) => {
+          console.log("NewUser");
 
-        console.log(response.data);
-        lineChartData.purchases.expectedData = response.data;
-        // 计算数组和
-        this.newUserNum = lineChartData.purchases.expectedData.reduce(
-          (accumulator, currentValue) => accumulator + currentValue,
-          0
-        );
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  },
-  getLastWeekUserSignForecast() {
-    api
-      .getLastWeekUserSignForecast()
-      .then((response) => {
-        console.log("UserSign");
-        console.log(response.data);
-        lineChartData.shoppings.expectedData = response.data;
-        // 计算数组和
-        this.userSignNum = lineChartData.shoppings.expectedData.reduce(
-          (accumulator, currentValue) => accumulator + currentValue,
-          0
-        );
-      })
-      .catch((error) => {
-                console.log("UserSign");
-
-        console.log(error);
-      });
+          console.log(response.data);
+          lineChartData.purchases.expectedData = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    getLastWeekUserSignForecast() {
+      api
+        .getLastWeekUserSignForecast()
+        .then((response) => {
+          console.log("UserSign");
+          console.log(response.data);
+          lineChartData.shoppings.expectedData = response.data;
+        })
+        .catch((error) => {
+          console.log("UserSign");
+          console.log(error);
+        });
+    },
   },
 };
 </script>

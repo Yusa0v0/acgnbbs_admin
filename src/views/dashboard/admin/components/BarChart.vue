@@ -57,6 +57,15 @@ export default {
       this.chart = echarts.init(this.$el, "macarons");
 
       this.chart.setOption({
+        title: {
+          text: "各版块浏览量",
+          textStyle: {
+            fontSize: 17,
+            color: "black",
+          },
+          top: "auto",
+          left: "center",
+        },
         tooltip: {
           trigger: "axis",
           axisPointer: {

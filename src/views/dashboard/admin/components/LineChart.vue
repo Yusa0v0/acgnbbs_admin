@@ -63,6 +63,15 @@ export default {
     },
     setOptions({ expectedData, actualData } = {}) {
       this.chart.setOption({
+        title: {
+          text: "各分类浏览量",
+          textStyle: {
+            fontSize: 17,
+            color:"black"
+          },
+          bottom: "0%",
+          left: "center",
+        },
         xAxis: {
           data: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
           boundaryGap: false,
@@ -150,7 +159,6 @@ export default {
         ],
       });
     },
-    
   },
 };
 </script>

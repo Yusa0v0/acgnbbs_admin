@@ -105,16 +105,16 @@ export const constantRoutes = [
     ]
   },
 
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://github.com/Yusa0v0/acgnbbs',
-        meta: { title: '外链', icon: 'link', requiresAuth: true }
-      }
-    ]
-  },
+  // {
+  //   path: 'external-link',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'https://github.com/Yusa0v0/acgnbbs',
+  //       meta: { title: '外链', icon: 'link', requiresAuth: true }
+  //     }
+  //   ]
+  // },
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
